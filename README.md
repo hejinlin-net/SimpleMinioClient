@@ -1,37 +1,23 @@
 # SimpleMinioClient
 
-#### 介绍
+### 介绍
 基于SpringBoot开发的简单的MiniO客户端API
 
-#### 软件架构
-软件架构说明
-
-
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
+这个包只是写项目时为简化操作制作的包 方便以后复用 如果你愿意使用这是我的荣幸
 #### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+1. 配置yml文件
+  ```
+    minio:
+      url: MiniOIP
+      access-key: MiniO用户名
+      secret-key: MiniO密码
+      bucket: 桶名
+  ```
+2. 使用
+```
+   String uploadFile(String fileFullPath, InputStream inputStream); 全路径上传
+   String uploadFile(String filePath, String fileName, InputStream inputStream); 路径加文件名上传
+   InputStream downloadFile(String fileFullPath); 下载
+   byte[] downloadFileToByteArray(String fillFullPath); 下载
+   boolean deleteFile(String fileFullPath); 删除
+```

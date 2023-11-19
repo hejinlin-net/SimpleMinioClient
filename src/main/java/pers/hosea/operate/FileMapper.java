@@ -18,7 +18,23 @@ public interface FileMapper {
      * @return 文件全路径
      */
     String uploadFile(String filePath, String fileName, InputStream inputStream);
+
+    /**
+     * 文件下载
+     * @param fileFullPath 文件全路径
+     */
     InputStream downloadFile(String fileFullPath);
+
+    /**
+     * 文件下载
+     * @param fillFullPath 文件全路径
+     * @return byte[]
+     */
     byte[] downloadFileToByteArray(String fillFullPath);
-    boolean deleteFile(String filePath);
+
+    /**
+     * 删除文件
+     * @param fileFullPath 文件全路径
+     */
+    boolean deleteFile(String fileFullPath);
 }
