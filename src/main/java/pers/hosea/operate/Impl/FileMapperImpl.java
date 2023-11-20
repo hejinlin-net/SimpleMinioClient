@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
+import pers.hosea.enums.ContentType;
 import pers.hosea.config.MinioClientFactory;
 import pers.hosea.config.MinioFactoryConfigProperties;
 import pers.hosea.operate.FileMapper;
@@ -34,12 +35,13 @@ public class FileMapperImpl implements FileMapper {
     }
 
     @Override
-    public String uploadFile(String fileFullPath, InputStream inputStream) {
+    public String uploadFile(String fileFullPath, String contentType, InputStream inputStream) {
         try {
             PutObjectArgs putObjectArgs = PutObjectArgs.builder()
                     .object(fileFullPath)
                     .bucket(minioFactoryConfigProperties.getBucket())
                     .stream(inputStream, inputStream.available(), -1)
+                    .contentType(contentType)
                     .build();
             minioClient.putObject(putObjectArgs);
             log.info("上传文件 {} 成功", fileFullPath);
@@ -50,9 +52,19 @@ public class FileMapperImpl implements FileMapper {
     }
 
     @Override
-    public String uploadFile(String filePath, String fileName, InputStream inputStream) {
+    public String uploadFile(String fileFullPath, ContentType contentType, InputStream inputStream) {
+        return this.uploadFile(fileFullPath, contentType.toString(), inputStream);
+    }
+
+    @Override
+    public String uploadFile(String filePath, String fileName, String contentType, InputStream inputStream) {
         String fileFullPath = filePath + "/" + fileName;
-        return this.uploadFile(fileFullPath, inputStream);
+        return this.uploadFile(fileFullPath, contentType, inputStream);
+    }
+
+    @Override
+    public String uploadFile(String filePath, String fileName, ContentType contentType, InputStream inputStream) {
+        return this.uploadFile(filePath, fileName, contentType.toString(), inputStream);
     }
 
     @Override

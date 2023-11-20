@@ -1,23 +1,47 @@
 package pers.hosea.operate;
 
+import pers.hosea.enums.ContentType;
+
 import java.io.InputStream;
 
 public interface FileMapper {
     /**
-     * 上传文件
+     * 文件上传
      * @param fileFullPath 文件全路径
-     * @param inputStream 传输流
+     * @param contentType 文件类型
+     * @param inputStream 输入流
      * @return 文件全路径
      */
-    String uploadFile(String fileFullPath, InputStream inputStream);
+    String uploadFile(String fileFullPath, String contentType, InputStream inputStream);
+
     /**
-     * 上传文件
+     * 文件上传
+     * @param fileFullPath 文件全路径
+     * @param contentType 文件类型
+     * @param inputStream 输入流
+     * @return 文件全路径
+     */
+    String uploadFile(String fileFullPath, ContentType contentType, InputStream inputStream);
+
+    /**
+     * 文件上传
      * @param filePath 文件路径
      * @param fileName 文件名
-     * @param inputStream 传输流
+     * @param contentType 文件类型
+     * @param inputStream 输入流
      * @return 文件全路径
      */
-    String uploadFile(String filePath, String fileName, InputStream inputStream);
+    String uploadFile(String filePath, String fileName, ContentType contentType, InputStream inputStream);
+
+    /**
+     * 文件上传
+     * @param filePath 文件路径
+     * @param fileName 文件名
+     * @param contentType 文件类型
+     * @param inputStream 输入流
+     * @return 文件全路径
+     */
+    String uploadFile(String filePath, String fileName, String contentType, InputStream inputStream);
 
     /**
      * 文件下载
