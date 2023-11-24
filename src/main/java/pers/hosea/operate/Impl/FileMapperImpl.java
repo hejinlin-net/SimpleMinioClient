@@ -48,7 +48,7 @@ public class FileMapperImpl implements FileMapper {
         } catch (Exception exception) {
             log.error(exception.getMessage());
         }
-        return fileFullPath;
+        return buildFilePath(fileFullPath);
     }
 
     @Override
@@ -115,5 +115,13 @@ public class FileMapperImpl implements FileMapper {
             log.error(exception.getMessage());
         }
         return flag;
+    }
+
+    private String buildFilePath(String fullFillPath) {
+        return minioFactoryConfigProperties.getUrl() +
+                '/' +
+                minioFactoryConfigProperties.getBucket() +
+                '/' +
+                fullFillPath;
     }
 }

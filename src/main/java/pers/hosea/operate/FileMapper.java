@@ -10,7 +10,7 @@ public interface FileMapper {
      * @param fileFullPath 文件全路径
      * @param contentType 文件类型
      * @param inputStream 输入流
-     * @return 文件全路径
+     * @return 文件MinioURL地址
      */
     String uploadFile(String fileFullPath, String contentType, InputStream inputStream);
 
@@ -19,7 +19,7 @@ public interface FileMapper {
      * @param fileFullPath 文件全路径
      * @param contentType 文件类型
      * @param inputStream 输入流
-     * @return 文件全路径
+     * @return 文件MinioURL地址
      */
     String uploadFile(String fileFullPath, ContentType contentType, InputStream inputStream);
 
@@ -29,7 +29,7 @@ public interface FileMapper {
      * @param fileName 文件名
      * @param contentType 文件类型
      * @param inputStream 输入流
-     * @return 文件全路径
+     * @return 文件MinioURL地址
      */
     String uploadFile(String filePath, String fileName, ContentType contentType, InputStream inputStream);
 
@@ -39,7 +39,7 @@ public interface FileMapper {
      * @param fileName 文件名
      * @param contentType 文件类型
      * @param inputStream 输入流
-     * @return 文件全路径
+     * @return 文件MinioURL地址
      */
     String uploadFile(String filePath, String fileName, String contentType, InputStream inputStream);
 
