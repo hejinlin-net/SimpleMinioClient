@@ -15,12 +15,15 @@ import pers.hosea.config.MinioFactoryConfigProperties;
 import pers.hosea.operate.FileMapper;
 
 import java.io.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Slf4j
 @Component
 @Import(MinioClientFactory.class)
 @EnableConfigurationProperties(MinioFactoryConfigProperties.class)
 public class FileMapperImpl implements FileMapper {
+    private final static Pattern PATTERN = Pattern.compile("(.+://.+)/(.+)(/.+/.+/.+/.+)");
     private MinioFactoryConfigProperties minioFactoryConfigProperties;
     private MinioClient minioClient;
 
@@ -100,7 +103,7 @@ public class FileMapperImpl implements FileMapper {
     }
 
     @Override
-    public boolean deleteFile(String fillFullPath) {
+    public boolean deleteFileByFillFullPath(String fillFullPath) {
         boolean flag = false;
         try {
             RemoveObjectArgs removeObjectArgs = RemoveObjectArgs
@@ -115,6 +118,24 @@ public class FileMapperImpl implements FileMapper {
             log.error(exception.getMessage());
         }
         return flag;
+    }
+
+    @Override
+    public boolean deleteFileByURL(String URL) {
+        Matcher matcher = PATTERN.matcher(URL);
+        if (!matcher.find()) {
+            log.error("URL错误");
+        }
+        String ip = matcher.group(1);
+        String bucket = matcher.group(2);
+        String fillFullPath = matcher.group(3);
+        if (!minioFactoryConfigProperties.getUrl().equals(ip)) {
+            log.warn("主机{}地址与minio配置中的主机地址{}不相同, 已根据minio配置项删除文件", ip, minioFactoryConfigProperties.getUrl());
+        }
+        if (!minioFactoryConfigProperties.getBucket().equals(bucket)) {
+            log.warn("桶{}与minio配置中的桶{}不相同, 已根据minio配置项删除文件", bucket, minioFactoryConfigProperties.getBucket());
+        }
+        return deleteFileByFillFullPath(fillFullPath);
     }
 
     private String buildFilePath(String fullFillPath) {

@@ -57,8 +57,13 @@ public interface FileMapper {
     byte[] downloadFileToByteArray(String fillFullPath);
 
     /**
-     * 删除文件
+     * 全路径删除文件
      * @param fileFullPath 文件全路径
      */
-    boolean deleteFile(String fileFullPath);
+    boolean deleteFileByFillFullPath(String fileFullPath);
+
+    /**
+     * URL路径删除文件
+     */
+    boolean deleteFileByURL(String URL);
 }
