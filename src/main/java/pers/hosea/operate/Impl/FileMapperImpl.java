@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 @Import(MinioClientFactory.class)
 @EnableConfigurationProperties(MinioFactoryConfigProperties.class)
 public class FileMapperImpl implements FileMapper {
-    private final static Pattern PATTERN = Pattern.compile("(.+://.+)/(.+)(/.+/.+/.+/.+)");
+    private final static Pattern PATTERN = Pattern.compile("(\\S+?://\\S+?)/(\\S+?)/(\\S+\\.\\S+)");
     private MinioFactoryConfigProperties minioFactoryConfigProperties;
     private MinioClient minioClient;
 
@@ -130,7 +130,7 @@ public class FileMapperImpl implements FileMapper {
         String bucket = matcher.group(2);
         String fillFullPath = matcher.group(3);
         if (!minioFactoryConfigProperties.getUrl().equals(ip)) {
-            log.warn("主机{}地址与minio配置中的主机地址{}不相同, 已根据minio配置项删除文件", ip, minioFactoryConfigProperties.getUrl());
+            log.warn("主机地址{}与minio配置中的主机地址{}不相同, 已根据minio配置项删除文件", ip, minioFactoryConfigProperties.getUrl());
         }
         if (!minioFactoryConfigProperties.getBucket().equals(bucket)) {
             log.warn("桶{}与minio配置中的桶{}不相同, 已根据minio配置项删除文件", bucket, minioFactoryConfigProperties.getBucket());
