@@ -15,8 +15,22 @@ This package is only created for the purpose of simplifying operations during pr
   ```
 2. Ues
 ```
+    upload
     String uploadFile(String fileFullPath, String contentType, InputStream inputStream);
+
     String uploadFile(String fileFullPath, ContentType contentType, InputStream inputStream);
+
     String uploadFile(String filePath, String fileName, ContentType contentType, InputStream inputStream);
+
     String uploadFile(String filePath, String fileName, String contentType, InputStream inputStream);
+
+    download
+    InputStream downloadFile(String fileFullPath);
+
+    byte[] downloadFileToByteArray(String fillFullPath);
+
+    delete
+    boolean deleteFileByFillFullPath(String fileFullPath);
+    
+    boolean deleteFileByURL(String URL);
 ```

@@ -15,8 +15,23 @@
   ```
 2. 使用
 ```
+    文件上传
     String uploadFile(String fileFullPath, String contentType, InputStream inputStream);
+
     String uploadFile(String fileFullPath, ContentType contentType, InputStream inputStream);
+
     String uploadFile(String filePath, String fileName, ContentType contentType, InputStream inputStream);
+
     String uploadFile(String filePath, String fileName, String contentType, InputStream inputStream);
+
+    文件下载
+
+    InputStream downloadFile(String fileFullPath);
+
+    byte[] downloadFileToByteArray(String fillFullPath);
+
+    删除文件
+    boolean deleteFileByFillFullPath(String fileFullPath);
+    
+    boolean deleteFileByURL(String URL);
 ```
