@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import pers.hosea.enums.ContentType;
 import pers.hosea.config.MinioClientFactory;
 import pers.hosea.config.MinioFactoryConfigProperties;
+import pers.hosea.exception.SimpleMinioException;
 import pers.hosea.operate.FileMapper;
 
 import java.io.*;
@@ -47,7 +48,7 @@ public class FileMapperImpl implements FileMapper {
                     .contentType(contentType)
                     .build();
             minioClient.putObject(putObjectArgs);
-            log.info("上传文件 {} 成功", fileFullPath);
+            log.info("Successfully uploaded file {}", fileFullPath);
         } catch (Exception exception) {
             log.error(exception.getMessage());
         }
@@ -79,7 +80,7 @@ public class FileMapperImpl implements FileMapper {
                     .object(fileFullPath)
                     .build();
             inputStream = minioClient.getObject(getObjectArgs);
-            log.info("下载文件 {} 成功", fileFullPath);
+            log.info("Successfully downloaded file {}", fileFullPath);
         } catch (Exception exception) {
             log.error(exception.getMessage());
         }
@@ -112,7 +113,7 @@ public class FileMapperImpl implements FileMapper {
                     .object(fillFullPath)
                     .build();
             minioClient.removeObject(removeObjectArgs);
-            log.info("删除文件 {} 成功", fillFullPath);
+            log.info("Successfully deleted file {} ", fillFullPath);
             flag = true;
         } catch (Exception exception) {
             log.error(exception.getMessage());
@@ -124,17 +125,30 @@ public class FileMapperImpl implements FileMapper {
     public boolean deleteFileByURL(String URL) {
         Matcher matcher = PATTERN.matcher(URL);
         if (!matcher.find()) {
-            log.error("URL错误");
+            throw new SimpleMinioException("bad parameter");
         }
         String ip = matcher.group(1);
         String bucket = matcher.group(2);
         String fillFullPath = matcher.group(3);
         if (!minioFactoryConfigProperties.getUrl().equals(ip)) {
-            log.warn("主机地址{}与minio配置中的主机地址{}不相同, 已根据minio配置项删除文件", ip, minioFactoryConfigProperties.getUrl());
+            throw new SimpleMinioException("Wrong host address: " + minioFactoryConfigProperties.getUrl() + "->" + ip);
         }
         if (!minioFactoryConfigProperties.getBucket().equals(bucket)) {
-            log.warn("桶{}与minio配置中的桶{}不相同, 已根据minio配置项删除文件", bucket, minioFactoryConfigProperties.getBucket());
+            try {
+                log.warn("Parameter bucket wrong: {} -> {}", bucket, minioFactoryConfigProperties.getBucket());
+                RemoveObjectArgs removeObjectArgs = RemoveObjectArgs
+                        .builder()
+                        .bucket(bucket)
+                        .object(fillFullPath)
+                        .build();
+                minioClient.removeObject(removeObjectArgs);
+                log.info("Successfully deleted file {} ", fillFullPath);
+                return true;
+            } catch (Exception exception) {
+                throw new SimpleMinioException(exception.getMessage());
+            }
         }
+
         return deleteFileByFillFullPath(fillFullPath);
     }
 

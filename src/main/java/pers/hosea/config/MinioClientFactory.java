@@ -24,7 +24,7 @@ public class MinioClientFactory {
                 .endpoint(minioFactoryConfigProperties.getUrl())
                 .credentials(minioFactoryConfigProperties.getAccessKey(), minioFactoryConfigProperties.getSecretKey())
                 .build();
-        log.info("Minio客户端配置成功");
+        log.info("Minio client configuration successful");
         return minioClient;
     }
 }
