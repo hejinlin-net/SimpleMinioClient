@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 @Import(MinioClientFactory.class)
 @EnableConfigurationProperties(MinioFactoryConfigProperties.class)
 public class FileMapperImpl implements FileMapper {
-    private final static Pattern PATTERN = Pattern.compile("(\\S+?://\\S+?)/(\\S+?)/(\\S+\\.\\S+)");
+    private final static Pattern PATTERN = Pattern.compile("(\\S+?://\\S+?)/(\\S+?)/(\\S+)");
     private MinioFactoryConfigProperties minioFactoryConfigProperties;
     private MinioClient minioClient;
 
